@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JETQUIP | Amazon listing conversion by Jet Taylor</title>
+<meta name="description" content="Jet Taylor rebuilds Amazon listings so more of the shoppers who visit end up buying. Free one-page listing audit. Based in Cincinnati, Ohio.">
+<meta property="og:title" content="JETQUIP | Your listing gets the visit. I help it get the sale.">
+<meta property="og:description" content="Free one-page Amazon listing audit from a seller who works on listings the way an owner would.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one scrolling page, 1160px column, every section ends in the same single action: send a listing. */
+:root{
+  --paper:#f6f7f2; --card:#ffffff; --ink:#0e1b2c; --soft:#3b4a5e; --line:#c6ccd6;
+  --blue:#1f4fff; --amber:#ffb020; --amber-soft:#fff4dc; --mist:#e9edf3; --on-dark:#dfe6f2;
+  --display:"Space Grotesk","Trebuchet MS",sans-serif; --body:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:var(--ink)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;text-wrap:balance}
+h1{font-size:clamp(38px,6vw,66px);line-height:1.02;letter-spacing:-.02em}
+h2{font-size:clamp(30px,4.4vw,46px);line-height:1.08;letter-spacing:-.01em}
+.eyebrow{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.lines p{margin:0 0 6px;font-size:19px;color:var(--soft)}
+.lines p b{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.amber{background:var(--amber);color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+section{padding:80px 0}
+.row{display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start}
+.row>*{flex:1 1 400px;min-width:0}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* nav */
+.nav{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1160px;margin:0 auto}
+.logo{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.04em;background:var(--ink);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none}
+.nav nav{display:flex;flex-wrap:wrap;gap:2px;align-items:center}
+.nav nav a{padding:12px;text-decoration:none;font-weight:500}
+.nav nav a:hover{color:var(--blue)}
+.nav nav a.cta{background:var(--blue);color:#fff;border-radius:999px;padding:12px 18px;font-weight:600}
+
+/* forms */
+.audit{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.audit label{font-size:14px;font-weight:600;display:flex;flex-direction:column;gap:5px}
+.audit input,.audit textarea{padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--paper);min-height:48px}
+.audit input:focus,.audit textarea:focus{border-color:var(--ink)}
+.audit .fine{font-size:14px;color:var(--soft);margin:0}
+.audit .done{margin:0;padding:12px 14px;border-radius:10px;background:var(--amber-soft);border:2px solid var(--amber);font-size:15px}
+
+/* slider */
+.ba{position:relative;height:400px;border-radius:20px;overflow:hidden;border:2px solid var(--ink);background:var(--card)}
+.ba .pane{position:absolute;inset:0;padding:22px;display:flex;flex-direction:column;gap:12px}
+.ba .before{background:#eceff3}
+.ba .after{background:var(--card);text-align:right}
+.tag{font-size:12px;font-weight:700;letter-spacing:.1em;padding:4px 8px;border-radius:6px;align-self:flex-start}
+.ba .after .tag{align-self:flex-end;background:var(--blue);color:#fff}
+.ba .before .tag{background:#ffd9a8;color:#5a2a00}
+.shot{height:120px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;padding:0 14px;text-align:center}
+.ba .bar{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--amber)}
+.ba .knob{position:absolute;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--amber);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+input[type=range]{width:100%;height:44px;accent-color:var(--ink)}
+.pill{font-size:13px;font-weight:600;background:#e4e8ee;padding:4px 10px;border-radius:999px}
+
+/* ticker */
+.ticker{background:var(--ink);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap}
+.ticker div{display:inline-flex;gap:40px;padding-left:40px;font-family:var(--display);font-weight:500;font-size:18px;animation:tick 36s linear infinite}
+.ticker i{font-style:normal;color:var(--amber)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* game */
+.listing{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.spot{text-align:left;width:100%;min-height:56px;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15px;line-height:1.4}
+.spot small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.spot em{display:none;font-style:normal;flex:none;font-size:12px;font-weight:700;background:var(--ink);color:#fff;padding:4px 8px;border-radius:999px}
+.spot[aria-pressed=true]{border-color:var(--amber);background:var(--amber-soft)}
+.spot[aria-pressed=true] em{display:inline}
+.fix{display:none;padding:12px 14px;border-radius:12px;background:var(--ink);color:#fff;font-size:15px}
+.fix b{color:var(--amber)}
+.spot[aria-pressed=true]+.fix{display:block;animation:pop .25s}
+.score{font-family:var(--display);font-weight:700;font-size:44px;line-height:1}
+.score span{font-size:22px;color:var(--soft)}
+.nudge{display:none;background:var(--amber);border-radius:14px;padding:18px 20px;animation:pop .3s}
+.nudge.show{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.nudge strong{font-family:var(--display);font-size:22px}
+@keyframes pop{from{transform:scale(.96);opacity:.4}to{transform:scale(1);opacity:1}}
+
+/* bands */
+.band-white{background:var(--card);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.band-mist{background:var(--mist)}
+.band-dark{background:var(--ink);color:#fff}
+.band-dark .lines p{color:var(--on-dark)}
+.band-dark .lines p b{color:#fff}
+.band-blue{background:var(--blue);color:#fff}
+
+/* services */
+.cards{display:flex;flex-wrap:wrap;gap:20px}
+.card{flex:1 1 300px;min-width:0;border:2px solid var(--ink);border-radius:18px;padding:24px;background:var(--paper);display:flex;flex-direction:column;gap:12px}
+.card h3{font-size:23px;line-height:1.2}
+.card p{margin:0;color:var(--soft);flex-grow:1}
+.card .price{font-family:var(--display);font-weight:700;font-size:28px}
+.card .price small{font-family:var(--body);font-weight:500;font-size:14px;color:var(--soft)}
+.card.star{background:var(--ink);color:#fff}
+.card.star p,.card.star .price small{color:var(--on-dark)}
+.partner{background:var(--amber);border:2px solid var(--ink);border-radius:20px;padding:32px;display:flex;flex-wrap:wrap;gap:36px;align-items:center}
+.fit{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.check{flex-direction:row !important;align-items:center;gap:10px !important;font-weight:500 !important;font-size:15px !important;min-height:44px}
+.check input{width:20px;height:20px;min-height:0;accent-color:var(--ink);flex:none}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;flex:1 1 300px}
+.steps button{text-align:left;min-height:64px;padding:14px 18px;border-radius:14px;border:2px solid var(--ink);background:var(--card);display:flex;align-items:center;gap:16px;font-size:18px;font-weight:600}
+.steps button b{font-family:var(--display);font-size:26px;min-width:34px}
+.steps button[aria-pressed=true]{background:var(--amber)}
+.stepbox{flex:2 1 420px;background:var(--ink);color:#fff;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:14px;min-height:300px}
+.stepbox .n{font-family:var(--display);font-weight:700;font-size:72px;line-height:1;color:var(--amber)}
+.stepbox h3{font-size:30px}
+.stepbox p{margin:0;font-size:18px;color:var(--on-dark);max-width:56ch}
+.stepbox .get{font-size:15px;font-weight:600;color:var(--amber)}
+
+/* about, hiring, faq */
+.photo{flex:0 1 300px;height:340px;border-radius:20px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips span{padding:9px 14px;border:2px solid currentColor;border-radius:999px;font-weight:500;font-size:15px}
+.facts{display:flex;flex-wrap:wrap;gap:16px}
+.facts div{flex:1 1 220px;border-top:3px solid var(--amber);padding-top:12px}
+.facts b{display:block;font-family:var(--display);font-size:20px}
+.facts span{color:var(--on-dark);font-size:15px}
+details{border:2px solid var(--ink);border-radius:14px;background:var(--card);padding:0 18px}
+details+details{margin-top:10px}
+summary{cursor:pointer;font-weight:600;font-size:18px;padding:16px 0;min-height:48px;list-style-position:outside}
+details p{margin:0 0 16px;color:var(--soft);max-width:70ch}
+.email{font-family:var(--display);font-weight:700;font-size:clamp(20px,3vw,28px);background:#fff;color:var(--ink);padding:10px 18px;border-radius:14px;user-select:all}
+footer{background:var(--ink);color:var(--on-dark);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding-top:26px;padding-bottom:26px}
+footer a{color:#fff}
+
+/* phone */
+.sticky{display:none}
+@media (max-width:700px){
+  section{padding:56px 0}
+  .nav nav a:not(.cta){display:none}
+  .sticky{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;box-shadow:0 6px 0 rgba(14,27,44,.25)}
+  body{padding-bottom:76px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .ticker div{animation:none}
+  .fix,.nudge{animation:none !important}
+  .btn:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#top">JETQUIP</a>
+  <nav aria-label="Main">
+    <a href="#game">Play the game</a>
+    <a href="#services">Services</a>
+    <a href="#about">About Jet</a>
+    <a href="#hiring">Hiring?</a>
+    <a href="#faq">Questions</a>
+    <a class="cta" href="#audit">Free listing audit</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section style="padding-top:36px">
+  <div class="wrap row" style="align-items:center">
+    <div class="stack">
+      <div class="eyebrow">Amazon listing conversion &middot; Cincinnati, Ohio</div>
+      <h1>Your listing gets the visit. I help it get the sale.</h1>
+      <div class="lines">
+        <p>I shop on Amazon the same way you do.</p>
+        <p>First photo. Half the title. One bullet if I'm feeling generous.</p>
+        <p>Then I buy it, or I'm gone.</p>
+        <p>Your shoppers are doing that right now.</p>
+        <p><b>I fix what they see in those few seconds.</b></p>
+      </div>
+      <form class="audit" data-audit>
+        <label for="h-link">Paste your Amazon listing link
+          <input id="h-link" name="link" type="url" inputmode="url" placeholder="https://www.amazon.com/dp/..." required>
+        </label>
+        <label for="h-email">Where should I send the audit?
+          <input id="h-email" name="email" type="email" autocomplete="email" placeholder="you@yourbrand.com" required>
+        </label>
+        <button class="btn" type="submit">Send me your listing</button>
+        <p class="fine">Free. One page. No sales call unless you ask for one.</p>
+        <p class="done" hidden role="status"></p>
+      </form>
+    </div>
+
+    <div class="stack" style="gap:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <b>Drag to compare</b><span class="pill">Made-up product, real method</span>
+      </div>
+      <div class="ba" id="ba">
+        <div class="pane before">
+          <span class="tag">BEFORE</span>
+          <div class="shot" style="background:#d5dae2;color:var(--soft)">One dim photo. The mug is somewhere in there.</div>
+          <div style="font-size:15px;line-height:1.35">CAMP MUG insulated coffee cup stainless steel 12oz travel tumbler lid NEW 2026 gift men women hiking</div>
+          <div style="font-size:13.5px;color:var(--soft)">&bull; High quality material<br>&bull; 12 oz<br>&bull; Easy to clean</div>
+          <div style="font-size:13px;color:var(--soft)">No size reference. No comparison. No reason to care.</div>
+        </div>
+        <div class="pane after" id="baAfter">
+          <span class="tag">AFTER</span>
+          <div class="shot" style="background:var(--ink);color:#fff">Bright photo, mug in a hand by a campfire. "Hot at sunrise. Still hot at the summit."</div>
+          <div style="font-family:var(--display);font-weight:700;font-size:19px;line-height:1.25">Summit Sip 12 oz Insulated Camp Mug. Coffee that outlasts the hike.</div>
+          <div style="font-size:13.5px;color:var(--soft)">Stays hot for hours: the thing the shopper wants<br>Fits a pack side pocket: shown, with a pack<br>Lid that doesn't leak in a bag: the question in every review</div>
+          <div style="font-size:13px;font-weight:600">Benefit first. Proof next. Specs last.</div>
+        </div>
+        <div class="bar" id="baBar" aria-hidden="true"></div>
+        <div class="knob" id="baKnob" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0e1b2c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6"/><path d="M15 6l6 6-6 6"/></svg></div>
+      </div>
+      <label for="baRange" style="font-size:14px;color:var(--soft)">Slide left to reveal the rebuilt listing</label>
+      <input id="baRange" type="range" min="0" max="100" value="55">
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span>Main images</span><i>/</i><span>Titles a human would say out loud</span><i>/</i><span>Benefit-first bullets</span><i>/</i><span>Infographics</span><i>/</i><span>A+ content</span><i>/</i><span>Brand story</span><i>/</i><span>Keyword research</span><i>/</i>
+  <span>Main images</span><i>/</i><span>Titles a human would say out loud</span><i>/</i><span>Benefit-first bullets</span><i>/</i><span>Infographics</span><i>/</i><span>A+ content</span><i>/</i><span>Brand story</span><i>/</i><span>Keyword research</span><i>/</i>
+</div></div>
+
+<!-- GAME -->
+<section id="game">
+  <div class="wrap row">
+    <div class="stack" style="flex:1 1 340px">
+      <div class="eyebrow">A quick game</div>
+      <h2>I hid five problems in this listing.</h2>
+      <div class="lines">
+        <p>Okay, "hid" is generous.</p>
+        <p>They're sitting right there, the way they do on most listings.</p>
+        <p>"Jet, is this a sales pitch disguised as a game?"</p>
+        <p>Yes. Obviously.</p>
+        <p>But it's a fun one, so tap anything that looks weak and I'll tell you what I'd do about it.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="score" aria-live="polite"><b id="score">0</b><span> / 5 found</span></div>
+        <button class="btn ghost" id="resetGame" type="button">Start over</button>
+      </div>
+      <div class="nudge" id="nudge">
+        <strong id="nudgeTitle">See? You already know.</strong>
+        <span id="nudgeText">That took you about four seconds. Your shoppers are just as fast. Want me to do this to your listing?</span>
+        <a class="btn" href="#audit">Audit my listing, free</a>
+      </div>
+    </div>
+    <div class="listing" style="flex:1 1 460px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--soft)"><span>Example listing, invented for this demo</span><span>Tap a part</span></div>
+      <button class="spot" type="button" aria-pressed="false"><span><small>Main image</small>One dim photo on a grey background. The product fills a third of the frame.</span><em>Found</em></button>
+      <div class="fix"><b>What I'd do: </b>A bright, sharp photo on pure white with the product filling the frame. In search results that photo is a thumbnail the size of a stamp. It has one job.</div>
+      <button class="spot" type="button" aria-pressed="false"><span><small>Title</small>CAMP MUG insulated coffee cup stainless steel 12oz travel tumbler lid NEW 2026 gift men women</span><em>Found</em></button>
+      <div class="fix"><b>What I'd do: </b>Say what it is and what it does, in words a person would use. Keep the main search terms. Lose the pile of nouns.</div>
+      <button class="spot" type="button" aria-pressed="false"><span><small>Bullets</small>High quality material. 12 oz. Easy to clean.</span><em>Found</em></button>
+      <div class="fix"><b>What I'd do: </b>Start each bullet with what the shopper gets, then back it up with the feature. Nobody has ever been moved by "high quality material".</div>
+      <button class="spot" type="button" aria-pressed="false"><span><small>Image gallery</small>Three near-identical photos. No size reference, no how-it-works, no comparison.</span><em>Found</em></button>
+      <div class="fix"><b>What I'd do: </b>Give every image one job: how big it is, how it works, what's in the box, how it beats the usual alternative.</div>
+      <button class="spot" type="button" aria-pressed="false"><span><small>Below the fold</small>A plain paragraph of text and nothing else.</span><em>Found</em></button>
+      <div class="fix"><b>What I'd do: </b>Add A+ content and a brand story. The shoppers who scroll this far are the ones deciding. Give them a reason.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section class="band-dark">
+  <div class="wrap row">
+    <div class="stack">
+      <h2>"Cool game, Jet. Where's your wall of client logos?"</h2>
+      <div class="lines">
+        <p>Fair question.</p>
+        <p>I don't have one yet.</p>
+        <p>What I have is a year of selling on Amazon with my own money in the inventory.</p>
+        <p>When a listing doesn't convert, I don't get a sad report.</p>
+        <p>I get boxes.</p>
+        <p><b>So I've gotten very interested in why people click "Add to Cart".</b></p>
+        <p>That's also why the first audit is free.</p>
+        <p>If it's useless, you've lost five minutes and I've lost an afternoon.</p>
+      </div>
+      <a class="btn amber" href="#audit" style="align-self:flex-start">Take the free audit</a>
+    </div>
+    <div class="facts" style="align-self:center">
+      <div><b>I sell here too</b><span>JETQUIP LLC is my own Amazon business. I work on listings the way an owner would.</span></div>
+      <div><b>Marketing degree</b><span>B.S. in Marketing, Farmer School of Business, Miami University, 2023.</span></div>
+      <div><b>You keep the keys</b><span>I hand you a change sheet. You approve every line and submit it yourself.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="band-white">
+  <div class="wrap stack" style="gap:28px">
+    <h2>Three ways to work together</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="eyebrow">Start here</div>
+        <h3>Free listing audit</h3>
+        <p>One page on one listing. What's working, the three changes most likely to help, and what I'd do about each. In plain English.</p>
+        <div class="price">$0</div>
+        <a class="btn ghost" href="#audit">Send a listing</a>
+      </div>
+      <div class="card star">
+        <div class="eyebrow" style="color:var(--amber)">The main event</div>
+        <h3>Full listing rebuild</h3>
+        <p>Keyword research, a new title and bullets, a plan for every image slot with ready-to-design infographic briefs, and an A+ layout. Delivered as a change sheet you approve line by line.</p>
+        <div class="price">From $450 <small>per listing</small></div>
+        <a class="btn amber" href="#audit">Start with the audit</a>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Keep it sharp</div>
+        <h3>Monthly listing check</h3>
+        <p>You send me your monthly report. I send back a short note: what moved, what didn't, and what to try next. No dashboards. No jargon. No 40-slide deck.</p>
+        <div class="price">From $150 <small>per month</small></div>
+        <a class="btn ghost" href="#audit">Ask about this</a>
+      </div>
+    </div>
+
+    <div class="partner" id="partner">
+      <div class="stack" style="flex:2 1 420px">
+        <div class="eyebrow" style="color:var(--ink)">The partner deal</div>
+        <h3 style="font-size:clamp(26px,3.6vw,38px);line-height:1.1">Or pay nothing at all.</h3>
+        <div class="lines">
+          <p style="color:var(--ink)">Here's a deal I like better than invoices.</p>
+          <p style="color:var(--ink)">You sell me your product at wholesale.</p>
+          <p style="color:var(--ink)">I rebuild your whole listing. Free.</p>
+          <p style="color:var(--ink)">Then I stock it in Amazon's warehouses and sell it with Prime shipping, right alongside you.</p>
+          <p style="color:var(--ink)"><b>You get a better listing, a wholesale customer and a Prime offer. I get a product worth selling.</b></p>
+          <p style="color:var(--ink)">I only win if the listing sells. Which is a decent reason to trust my edits.</p>
+        </div>
+      </div>
+      <div class="stack" style="flex:1 1 300px;gap:12px">
+        <b style="font-family:var(--display);font-size:20px">This fits if:</b>
+        <ul class="fit">
+          <li>You own the brand and you're the only one selling it on Amazon.</li>
+          <li>You ship orders yourself today, so there's no Prime offer on the listing.</li>
+          <li>The product sells 50 or more units a month, consistently.</li>
+          <li>It passes my look at the numbers. I check every product first, and I'll tell you straight if it's not a fit.</li>
+        </ul>
+        <a class="btn" href="#audit" data-partner>See if your product qualifies</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap stack" style="gap:28px">
+    <h2>How a project runs</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:24px">
+      <div class="steps" role="group" aria-label="Project steps" id="steps">
+        <button type="button" aria-pressed="true"><b>01</b>Audit</button>
+        <button type="button" aria-pressed="false"><b>02</b>Research</button>
+        <button type="button" aria-pressed="false"><b>03</b>Rebuild</button>
+        <button type="button" aria-pressed="false"><b>04</b>Launch and review</button>
+      </div>
+      <div class="stepbox" aria-live="polite">
+        <div class="n" id="stepN">01</div>
+        <h3 id="stepT">Audit</h3>
+        <p id="stepP">I go through your listing the way a shopper does: on a phone, half paying attention, with your competitors one swipe away. You get one page on what to fix first.</p>
+        <div class="get" id="stepG">You get: a one-page audit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="band-mist">
+  <div class="wrap row">
+    <div class="photo">[YOUR PHOTO]</div>
+    <div class="stack">
+      <div class="eyebrow">About Jet</div>
+      <h2>Hi. I'm Jet.</h2>
+      <div class="lines">
+        <p>I'd love to tell you I grew up dreaming about Amazon bullet points.</p>
+        <p>I did not.</p>
+        <p>Nobody does.</p>
+        <p>I live in Cincinnati. In 2023 I graduated from Miami University's Farmer School of Business with a marketing degree.</p>
+        <p>Then I did the part they don't cover in class.</p>
+        <p>I started selling on Amazon.</p>
+        <p>One supplier. Two brands. One year of watching which listings sell and which ones just sit there looking confused.</p>
+        <p><b>Turns out the difference is rarely the product.</b></p>
+        <p>It's the photo, the title and the first two bullets.</p>
+        <p>That's the part I fix.</p>
+      </div>
+      <div class="chips">
+        <span>Amazon Seller Central</span><span>Listing copy</span><span>Image and infographic planning</span><span>Keyword research</span><span>Wholesale sourcing</span><span>AI-assisted research</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRING -->
+<section id="hiring">
+  <div class="wrap row">
+    <div class="stack">
+      <div class="eyebrow">For employers</div>
+      <h2>Hiring for an e-commerce role?</h2>
+      <div class="lines">
+        <p>Then you just scrolled past my cover letter.</p>
+        <p>Everything above is how I think about product pages, shoppers and copy.</p>
+        <p>Here's the short version for your notes.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a class="btn" href="https://www.linkedin.com/in/jettaylor/">See my LinkedIn</a>
+        <a class="btn ghost" href="#audit" data-resume>Ask for my resume</a>
+      </div>
+    </div>
+    <div class="stack" style="gap:0">
+      <details open><summary>Experience</summary><p>Founder, JETQUIP LLC. One year running an Amazon selling business: sourcing from a wholesale supplier, managing listings and inventory, and studying what makes a listing convert.</p></details>
+      <details><summary>Education</summary><p>B.S. in Marketing, Farmer School of Business, Miami University, 2023.</p></details>
+      <details><summary>What I'm good at</summary><p>Listing copy, image and infographic planning, keyword research, Amazon Seller Central, supplier relationships, and using AI tools to research and draft faster.</p></details>
+      <details><summary>Where I'm based</summary><p>Cincinnati, Ohio.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="band-white">
+  <div class="wrap row">
+    <div class="stack" style="flex:1 1 300px">
+      <h2>Questions people ask right before they don't email me</h2>
+      <div class="lines"><p>Let's get them out of the way.</p></div>
+    </div>
+    <div style="flex:2 1 480px">
+      <details><summary>Do you need my Amazon login?</summary><p>No. I send you a change sheet with the old text, the new text and the reason for each change. You paste it in yourself, or add me as a limited user if you'd rather not. Your call.</p></details>
+      <details><summary>What's in the free audit?</summary><p>One page on one listing: what's already working, the three changes most likely to help, and what I'd do about each. You can take it and run. I won't be offended. Maybe a little.</p></details>
+      <details><summary>How does the free partner deal work?</summary><p>If you own the brand, ship orders yourself and sell 50 or more units a month, I'll look at the numbers. If it fits, you sell me your product at wholesale, I rebuild the listing at no charge, and I sell it with Prime shipping through Amazon's warehouses. If it doesn't fit, I'll say so, and the paid options are still there.</p></details>
+      <details><summary>Will this definitely raise my sales?</summary><p>Nobody can promise that, and you should be suspicious of anyone who does. What I can promise is a listing that's clearer, faster to understand and built around what your shoppers are asking. Then we look at your numbers before and after.</p></details>
+      <details><summary>How long does a rebuild take?</summary><p>It depends on how many images and how much A+ content is involved. I'll give you a date before we start, and I'll keep it.</p></details>
+      <details><summary>I'm not sure my listing is bad.</summary><p>It might not be. That's what the free audit is for. If it's already good, I'll tell you, and you'll get to feel smug for the rest of the day.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="audit" class="band-blue">
+  <div class="wrap row" style="align-items:center">
+    <div class="stack">
+      <h2 style="font-size:clamp(34px,5.4vw,58px)">Send me a listing. I'll send back what I'd fix.</h2>
+      <div class="lines" style="--soft:#fff">
+        <p style="color:#fff">This is the part of the website where I'm supposed to create urgency.</p>
+        <p style="color:#fff">"Only 3 audit spots left this month!"</p>
+        <p style="color:#fff">There are not 3 spots left.</p>
+        <p style="color:#fff">There's me, a laptop and a coffee.</p>
+        <p style="color:#fff"><b style="color:#fff">One page. Plain language. No charge for the first one.</b></p>
+        <p style="color:#fff">Worst case, you get a free second opinion.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <span class="email">jet@jetquip.com</span>
+        <button class="btn" id="copyEmail" type="button" style="border-color:#fff">Copy email</button>
+      </div>
+    </div>
+    <form class="audit" data-audit style="color:var(--ink)">
+      <label for="f-name">Your name
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="First name is fine" required>
+      </label>
+      <label for="f-link">Amazon listing link <span style="font-weight:400;color:var(--soft)">(or leave blank if you're hiring)</span>
+        <input id="f-link" name="link" type="url" inputmode="url" placeholder="https://www.amazon.com/dp/...">
+      </label>
+      <label for="f-email">Your email
+        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@yourbrand.com" required>
+      </label>
+      <label for="f-note">Anything I should know? <span style="font-weight:400;color:var(--soft)">(optional)</span>
+        <textarea id="f-note" name="note" rows="3" placeholder="What's bugging you about this listing?"></textarea>
+      </label>
+      <label class="check" for="f-partner"><input id="f-partner" name="partner" type="checkbox" value="yes">I'm interested in the partner deal (free rebuild for wholesale)</label>
+      <button class="btn" type="submit">Send it to Jet</button>
+      <p class="done" hidden role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>JETQUIP LLC &middot; Cincinnati, Ohio &middot; <a href="https://www.linkedin.com/in/jettaylor/">LinkedIn</a></span>
+  <span>Not affiliated with Amazon. The camp mug is invented. The method is real.</span>
+  <span style="flex-basis:100%">P.S. If you scrolled all the way down here, you read things properly. We'd get along. <a href="#audit">Say hi.</a></span>
+</div></footer>
+
+<a class="btn amber sticky" href="#audit">Get a free listing audit</a>
+
+<script>
+(function(){
+  function $(q,r){return (r||document).querySelector(q);}
+  function $$(q,r){return Array.prototype.slice.call((r||document).querySelectorAll(q));}
+  var EMAIL='jet@jetquip.com';
+
+  /* before / after slider */
+  var range=$('#baRange'), after=$('#baAfter'), bar=$('#baBar'), knob=$('#baKnob');
+  function setSplit(v){after.style.clipPath='inset(0 0 0 '+v+'%)';bar.style.left=v+'%';knob.style.left=v+'%';}
+  range.addEventListener('input',function(){setSplit(range.value);});
+  setSplit(range.value);
+  var ba=$('#ba'), dragging=false;
+  function fromPointer(e){var r=ba.getBoundingClientRect();var v=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));range.value=v;setSplit(v);}
+  ba.addEventListener('pointerdown',function(e){dragging=true;fromPointer(e);});
+  window.addEventListener('pointermove',function(e){if(dragging)fromPointer(e);});
+  window.addEventListener('pointerup',function(){dragging=false;});
+
+  /* game */
+  var spots=$$('.spot'), score=$('#score'), nudge=$('#nudge');
+  function tally(){
+    var n=spots.filter(function(s){return s.getAttribute('aria-pressed')==='true';}).length;
+    score.textContent=n;
+    nudge.classList.toggle('show',n>0);
+    if(n===spots.length){$('#nudgeTitle').textContent='Five for five. You have the eye.';$('#nudgeText').textContent='Now imagine what is hiding in a listing you look at every day and can no longer see. Want a fresh pair of eyes on yours?';}
+    else{$('#nudgeTitle').textContent='See? You already know.';$('#nudgeText').textContent='That took you about four seconds. Your shoppers are just as fast. Want me to do this to your listing?';}
+  }
+  spots.forEach(function(s){s.addEventListener('click',function(){s.setAttribute('aria-pressed','true');tally();});});
+  $('#resetGame').addEventListener('click',function(){spots.forEach(function(s){s.setAttribute('aria-pressed','false');});tally();});
+
+  /* process steps */
+  var STEPS=[
+    ['Audit','I go through your listing the way a shopper does: on a phone, half paying attention, with your competitors one swipe away. You get one page on what to fix first.','a one-page audit'],
+    ['Research','I read the search terms shoppers type, the questions they ask in reviews, and what the best listings in your category do well. This is the boring part. I like the boring part.','a short research summary'],
+    ['Rebuild','New title and bullets, a plan for every image, and the A+ layout. Every claim gets checked against your label or spec sheet, so nothing on the page can get you in trouble.','a change sheet: old text, new text and the reason'],
+    ['Launch and review','You approve the changes and submit them from your own account. Then we compare your numbers before and after, like adults.','a before and after report']
+  ];
+  var stepBtns=$$('#steps button');
+  stepBtns.forEach(function(b,i){b.addEventListener('click',function(){
+    stepBtns.forEach(function(x,j){x.setAttribute('aria-pressed',j===i?'true':'false');});
+    $('#stepN').textContent='0'+(i+1);$('#stepT').textContent=STEPS[i][0];$('#stepP').textContent=STEPS[i][1];$('#stepG').textContent='You get: '+STEPS[i][2];
+  });});
+
+  /* audit forms.
+     TODO before launch: connect a form service so messages arrive without the visitor's email app.
+     Until then the form opens the visitor's own email app with the details filled in. */
+  $$('form[data-audit]').forEach(function(f){
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var d=new FormData(f), lines=[];
+      if(d.get('name'))lines.push('Name: '+d.get('name'));
+      if(d.get('link'))lines.push('Listing: '+d.get('link'));
+      lines.push('Reply to: '+d.get('email'));
+      if(d.get('partner'))lines.push('Interested in the partner deal: yes');
+      if(d.get('note'))lines.push('','Note: '+d.get('note'));
+      var subject=d.get('link')?'Free listing audit request':'Hello from your website';
+      var url='mailto:'+EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
+      var done=$('.done',f);
+      done.hidden=false;
+      done.textContent='Your email app should open with this filled in. Press send there. If nothing opened, email the details to '+EMAIL+'.';
+      try{window.location.href=url;}catch(err){}
+    });
+  });
+  $$('[data-partner]').forEach(function(a){a.addEventListener('click',function(){var c=$('#f-partner');if(c)c.checked=true;});});
+  $$('[data-resume]').forEach(function(a){a.addEventListener('click',function(){var n=$('#f-note');if(n&&!n.value)n.value="I'm hiring. Please send your resume.";});});
+
+  /* copy email */
+  var cb=$('#copyEmail');
+  cb.addEventListener('click',function(){
+    function set(t){cb.textContent=t;setTimeout(function(){cb.textContent='Copy email';},2200);}
+    try{navigator.clipboard.writeText(EMAIL).then(function(){set('Copied');},function(){set('Select the address to copy');});}catch(err){set('Select the address to copy');}
+  });
+})();
+</script>
+</body>
+</html>
